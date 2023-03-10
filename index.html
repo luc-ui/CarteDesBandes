@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html >
+	<body >
+		<div id="typeselection"></div>
+		<h1 id="depuserchoose"></h1>
+		<div id="cdbdiv"></div>
+		<div id="tabledepbandes"></div>
+		<div id="carte"></div>
+	</body>
+	<script src="./svg.js"></script>
+	<script src="./data.js"></script>
+	<script src="./carte.js"></script>
+	<script>
+		generate_map();
+		getDataFromDB()
+		window.all_dep_xml_element = document.querySelectorAll("[id^='Dep'],[id^='n']"),window.all_dep_name_xml_element = document.querySelectorAll("tspan");
+		window.all_dep_name_element = Array.from(all_dep_name_xml_element).map(a=>a.textContent.split(" ").join("-").split("'").join("-"));
+		window.user="User";
+		window.defaut_fill="#ffffff";
+		window.selected_departement_user=[];
+		window.selected_departement_admin=[[1,0],[2,0],[3,1],[4,1],[5,2],[6,2],[7,3],[8,3],[9,3]];//dep + bande
+		window.Bandes=[["bande 1","#ff0000"],["bande 2","#00ff00"],["bande 3","#0000ff"],["bande 4","#000000"]];
+		window.cBande="";
+		SizeWindow();
+		MatchDepXmlToNameXml();
+		ChoiceUsers();
+		SelectDep();
+	</script>
+</html>
