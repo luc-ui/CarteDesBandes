@@ -1,0 +1,100 @@
+*,:after,:before {
+	box-sizing:inherit
+}
+:focus {
+	outline:none
+}
+@font-face {
+	font-family:quicksandregular;
+	src:url('quicksand-regular-webfont.eot');
+	src:url('quicksand-regular-webfont.eot?#iefix') format("embedded-opentype"),
+	url('quicksand-regular-webfont.woff2') format("woff2"),
+	url('quicksand-regular-webfont.woff') format("woff"),
+	url('quicksand-regular-webfont.ttf') format("truetype"),
+	url('quicksand-regular-webfont.svg#quicksandregular') format("svg")
+}
+body, html {
+  font-family: quicksandregular;
+  font-size: 20px;
+  font-weight: 700;
+}
+.body{
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
+	background: top/cover fixed no-repeat url('img.jpg');
+	color: #fff;
+	overflow-x: hidden;
+}
+#depuserchoose{
+	position: absolute;
+	margin-top: 80px;
+	text-align: center;
+	margin-left:42%
+}
+#cdbdiv{
+	background-color: rgba(0,0,0,0.2);
+	padding: 0em 2em;
+	margin-left: -12px;
+}
+.span{
+	background-color: rgba(0,0,0,0.2);
+	padding: 6px 13px;
+	border-radius: 9px;
+	position: relative;
+	margin: 3px;
+	cursor:pointer;
+}
+#cdbdiv p{
+	line-height: 50px;
+}
+#cdbdiv input[type=text]{
+	color:#fff;
+	background-color:transparent;
+	border:none;
+	padding: 0.3em;
+	font-size: 15px;
+}
+#cdbdiv input[type=color]{
+	width: 20px;
+	height: 15px;
+	margin: 0px 2px 0px -50px;
+	border: 2px solid #fff;
+	border-radius: 0px;
+	background-color: transparent;
+	padding: 0px;
+}
+table{
+	font-size:14px
+}
+.edit{
+	color:#fff
+}
+#ModifBandeInput{
+	margin: 0px 10px;
+}
+.selectorradiobande{
+	display:none	
+}
+input[type="radio"]:checked + label{
+	background-color:rgba(0,0,0,0.6)
+}
+.uneBande{
+	padding: 10px;
+	border-right: 1px solid #fff;
+}
+table{
+	margin-top:30px;
+}
+th {
+  background-color: rgba(0,0,0,0.4);
+  color: white;
+}
+tr:nth-child(even) {
+	background-color:rgba(0,0,0,0.2)
+}
+th, td {
+  padding: 7px;
+  text-align: left;
+}

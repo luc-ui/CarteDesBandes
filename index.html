@@ -1,6 +1,21 @@
 <!DOCTYPE HTML>
 <html >
-	<body >
+	<head>
+		<title>Carte des bandes</title>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="Carte des Bandes pour boquette">
+		<meta name="keywords" content="Carte des Bandes">
+		<meta name="author" content="Strass infal 221">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="no">
+		<meta name="application-name" content="Carte des Bandes">
+		<meta name="apple-mobile-web-app-title" content="Mobile rules">
+		<meta name="apple-mobile-web-app-status-bar-style" content="white">
+		<meta name="theme-color" content="#ffffff" />
+		<link rel="stylesheet" type="text/css" href="./layout/Style.css" media="all">
+	</head>
+	<body class="body">
 		<div id="typeselection"></div>
 		<h1 id="depuserchoose"></h1>
 		<div id="cdbdiv"></div>
@@ -11,19 +26,22 @@
 	<script src="./data.js"></script>
 	<script src="./carte.js"></script>
 	<script>
-		generate_map();
-		getDataFromDB()
-		window.all_dep_xml_element = document.querySelectorAll("[id^='Dep'],[id^='n']"),window.all_dep_name_xml_element = document.querySelectorAll("tspan");
-		window.all_dep_name_element = Array.from(all_dep_name_xml_element).map(a=>a.textContent.split(" ").join("-").split("'").join("-"));
-		window.user="User";
-		window.defaut_fill="#ffffff";
-		window.selected_departement_user=[];
-		window.selected_departement_admin=[[1,0],[2,0],[3,1],[4,1],[5,2],[6,2],[7,3],[8,3],[9,3]];//dep + bande
-		window.Bandes=[["bande 1","#ff0000"],["bande 2","#00ff00"],["bande 3","#0000ff"],["bande 4","#000000"]];
-		window.cBande="";
-		SizeWindow();
-		MatchDepXmlToNameXml();
-		ChoiceUsers();
-		SelectDep();
+		window.onload = async function (){
+			generate_map();
+			window.all_dep_xml_element = document.querySelectorAll("[id^='Dep'],[id^='n']"),window.all_dep_name_xml_element = document.querySelectorAll("tspan");
+			window.all_dep_name_element = Array.from(all_dep_name_xml_element).map(a=>a.textContent.split(" ").join("-").split("'").join("-"));
+			window.user="User";
+			window.defaut_fill="#ffffff";
+			window.selected_departement_user=await getUser();
+			window.listOfUser = await getUsers();
+			window.selected_departement_admin= await getDep();//dep + bande
+			window.Bandes=await getBandes();
+			window.cBande="";
+			SizeWindow();
+			MatchDepXmlToNameXml();
+			ChoiceUsers();
+			SelectDep();
+			DispDepSelecedUser();
+		}
 	</script>
 </html>
