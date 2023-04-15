@@ -117,7 +117,7 @@ async function DepMultipleSelectedByuser(num_dep_select,i){
 	for(let j=0;j<Bandes.length;++j){
 		w = w||current_fill==convertRgbToHex(moreTransparent(convertHexToRgb(Bandes[j][1]),120))
 	}
-	if((current_fill==fill || current_fill==convertRgbToHex(moreTransparent(convertHexToRgb(fill),50)))&&!w){
+	if((current_fill==fill || current_fill==convertRgbToHex(moreTransparent(convertHexToRgb(fill),120)))&&!w){
 		all_dep_xml_element[i].setAttribute("fill",colorfill);
 		all_dep_name_xml_element[ConvertItoJ(i)].setAttribute("fill",c);
 		let w=""
@@ -345,7 +345,7 @@ function MakeDepMore(upset){
 	for(let i=0;i<all_dep_xml_element.length;++i){
 		if(upset>0){
 			let col = liste_dep_prop[i][3];
-			col=convertRgbToHex(moreTransparent(convertHexToRgb(col),50));
+			col=convertRgbToHex(moreTransparent(convertHexToRgb(col),120));
 			all_dep_xml_element[i].setAttribute("fill",col);
 			let c = convertRgbToHex(invertColor(convertHexToRgb(col)));
 			all_dep_name_xml_element[ConvertItoJ(i)].setAttribute("fill",c);
@@ -383,24 +383,11 @@ function MakeDepMore(upset){
 		}
 	}
 }
-function convertHexToRgb(h){
-	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h);
-	return [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)]||null;
-}
-function convertRgbToHex(c) {
-	return "#" + componentToHex(c[0]) + componentToHex(c[1]) + componentToHex(c[2]);
-}
-function componentToHex(c) {
-	var hex = c.toString(16);
-	return hex.length == 1 ? "0" + hex : hex;
-}
-function invertColor(c){
-	c = c.map(a=>(a>255)?255:a);
-	return [(255 - c[0]), (255 - c[1]), (255 - c[2])];
-}
-function moreTransparent(c,u){
-	return c.map(a=>(a+u>255)?255: parseInt(a+u));
-}
+convertHexToRgb	= (h) => (/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h).map(m=>parseInt(m, 16)).splice(1,3)||null);
+convertRgbToHex	= (c) => "#" + componentToHex(c[0]) + componentToHex(c[1]) + componentToHex(c[2]);
+componentToHex 	= (c) => c.toString(16).length == 1 ? "0" + c.toString(16) : c.toString(16);
+invertColor 	= (c) => c.map(a=>(a>255)?0:(255-a));
+moreTransparent	= (c,u) => c.map(a=>(a+u>255)?255: parseInt(a+u));
 async function ClearSelectedDep(){
 	for(let i=0;i<selected_departement_user.length;++i) all_dep_xml_element[selected_departement_user[i]].setAttribute("fill",liste_dep_prop[selected_departement_user[i]][3]);
 	for(let i=0;i<selected_departement_user.length;++i) all_dep_name_xml_element[ConvertItoJ(selected_departement_user[i])].setAttribute("fill","#000");

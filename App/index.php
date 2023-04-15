@@ -71,9 +71,6 @@ if(isset($str_json)){
 	}
 	if(isset($_GET['m'])){
 			$d->setId($_GET['m']);
-			if(isset($_GET['u'])){
-				$d->setId($ip.$u);
-			}
 	}
 	if($d->isValid()){
 			$manager->save($d);
