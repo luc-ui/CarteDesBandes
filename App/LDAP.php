@@ -1,77 +1,29 @@
+
 <?php
-/**
- * Always have documentation here
- */
-class ActiveDirectoryUser {
-    private $connection;
-    private $username;
-    private $password;
-    private $ldap_db = "censored";
-    private $ldap_connection;
 
-    /**
-     * Always have documentation 
-     * @param $username string
-     * @param $password string
-     */
-    public function __construct($username, $password) {
-      $this->username = $username;
-      $this->password = $password;
-    }
+$user   = 'cn=admin,dc=boquette,dc=fr';
+$passwd = 'boquette1815';
 
-    /**
-     * Always have documentation
-     */
-    public function __destruct(){
-        ldap_close($this->ldap_connection);
-    }
+$ds = ldap_connect('ldap://10.1.0.4');
 
-    /**
-     * Always have documentation 
-     * @param $username string
-     * @param $password string
-     */
+if ($ds) {
+    $r = ldap_bind_ext($ds, $user, $passwd, [['oid' => LDAP_CONTROL_PASSWORDPOLICYREQUEST]]);
 
-    public function connect() {
-        $this->ldap_connection = ldap_connect($this->ldap_db);
-
-        if ($bind = ldap_bind($this->ldap_connection, $this->username, $this->password)) {
-            return True
-        } else {
-            throw new Exception("Invalid login.");
+    if (ldap_parse_result($ds, $r, $errcode, $matcheddn, $errmsg, $referrals, $ctrls)) {
+        if ($errcode != 0) {
+            die("Error: $errmsg ($errcode)");
+        }
+        if (isset($ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE])) {
+            $value = $ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value'];
+            echo "Expires in: ".$value['expire']." seconds\n";
+            echo "Number of auth left: ".$value['grace']."\n";
+            if (isset($value['error'])) {
+                echo "Policy error code: ".$value['error'];
+            }
         }
     }
-
-    /**
-     * Always have documentation
-     */
-    public function getName(){
-        ldap_set_option($this->ldap_connection, LDAP_OPT_PROTOCOL_VERSION, 3);
-        ldap_set_option($this->ldap_connection, LDAP_OPT_REFERRALS, 0);
-
-        $bind = ldap_bind($this->ldap_connection, $this->username, $this->password);
-
-        # Will trim domain and slash from username 
-        $person = substr($this->username, strpos($this->username, "\\") + 1,
-                         strlen($this->username) - strpos($this->username,"\\"));
-
-        $filter="(sAMAccountName=" . $person.")";
-
-        $sr = ldap_search($this->ldap_connection, $this->ldap_db, $filter, ['cn']);
-        $info = ldap_get_entries($ldap, $sr);
-
-        $returnData = [];
-        for ($i = 0; $i < $info["count"]; $i++) {
-            $returnData[] = $info[$i]["cn"][0];
-        }
-
-        return $returnData;
-    }
+} else {
+    die("Unable to connect to LDAP server");
 }
-$ActiveDirectoryUser = new ActiveDirectoryUser($_POST['username'], $_POST['password']);
-try{
-    $ActiveDirectoryUser->connect();
-} catch (Exception $e){
-    # Do header redirect here
-}
-$user = $ActiveDirectoryUser->getName();
+?>
+
