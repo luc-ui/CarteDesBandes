@@ -82,20 +82,20 @@ if($liste!=[]){
 	$i=0;
 	foreach($liste as $d){
 		if(isset($_GET['u'])){
-			$l[$i]=['id_dep'=>$d->id_dep()];
+			$l[$i]=['id_dep'=>(int) $d->id_dep()];
 		}
 		elseif(isset($_GET['b'])){
-			$l[$i]=['nom'=>$d->nom(),'couleur'=>$d->couleur(),'id'=>$d->id()];
+			$l[$i]=['nom'=>$d->nom(),'couleur'=>$d->couleur(),'id'=>(int) $d->id()];
 		}
 		elseif(isset($_GET['d'])){
-			$l[$i]=['id_dep'=>$d->id_dep(),'id_bande'=>$d->id_bande()];
+			$l[$i]=['id_dep'=>(int) $d->id_dep(),'id_bande'=>(int) $d->id_bande()];
 		}                
 		$i++;
 	}
 	if(isset($_GET['un'])){
 		$d=$manager->getUnique($ip.$u);
 		if($d){
-			$l=['id_dep'=>$d->id_dep()];
+			$l=['id_dep'=>(int) $d->id_dep()];
 		}
 	}
 	echo json_encode($l);
