@@ -340,10 +340,8 @@ async function AddNumberUserToDep(){
 }
 function MakeDepMore(upset){
 	let indiceSelectedDep = GetIndiceDepAdmin()[0];
-	console.log(GetIndiceDepAdmin()[0]);
 	let colorfill="";
 	for(let j=0;j<Bandes.length;++j){(Bandes[j][0]==cBande)?colorfill=Bandes[j][1]:""}
-	console.log(colorfill);
 	for(let i=0;i<all_dep_xml_element.length;++i){
 		if(upset>0){
 			let col = liste_dep_prop[i][3];
@@ -353,7 +351,6 @@ function MakeDepMore(upset){
 			all_dep_name_xml_element[ConvertItoJ(i)].setAttribute("fill",c);
 			for(let j=0;j<selected_departement_admin.length;++j){
 				if(selected_departement_admin[j][0]==i && cBande==""){
-					console.log("a");
 					let z = ConvertIdLtoIdddb(selected_departement_admin[j][1]);
 					let col = Bandes[z][1];
 					col=convertRgbToHex(moreTransparent(convertHexToRgb(col),120));
@@ -362,15 +359,12 @@ function MakeDepMore(upset){
 					all_dep_name_xml_element[ConvertItoJ(i)].setAttribute("fill",c);
 				}
 				else if(selected_departement_admin[j][0]==i && cBande!=""){
-					console.log("b",indiceSelectedDep.indexOf(i),indiceSelectedDep);
 					if(indiceSelectedDep.indexOf(i)!=-1){
-						console.log("c");
 						all_dep_xml_element[i].setAttribute("fill",colorfill);
 						let c = convertRgbToHex(invertColor(convertHexToRgb(colorfill)));
 						all_dep_name_xml_element[ConvertItoJ(i)].setAttribute("fill",c);
 					}
 					else{
-						console.log("d");
 						let z = ConvertIdLtoIdddb(selected_departement_admin[j][1]);
 						let col = Bandes[z][1];
 						col=convertRgbToHex(moreTransparent(convertHexToRgb(col),120));
@@ -381,7 +375,6 @@ function MakeDepMore(upset){
 				}
 			}
 		}else{
-			console.log("e");
 			let col =liste_dep_prop[i][3];
 			col=convertRgbToHex(moreTransparent(convertHexToRgb(col),0));
 			all_dep_xml_element[i].setAttribute("fill",col);
