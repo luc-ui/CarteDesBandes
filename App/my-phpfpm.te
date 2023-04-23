@@ -1,0 +1,21 @@
+
+module my-phpfpm 1.0;
+
+require {
+	type http_port_t;
+	type ldap_port_t;
+	type mysqld_port_t;
+	type httpd_t;
+	class tcp_socket name_connect;
+}
+
+#============= httpd_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t http_port_t:tcp_socket name_connect;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t ldap_port_t:tcp_socket name_connect;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t mysqld_port_t:tcp_socket name_connect;

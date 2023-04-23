@@ -13,7 +13,7 @@ $db = DBFactory::getMysqlConnexionWithPDO();
 if (!empty($_SERVER['HTTP_CLIENT_IP']))$ip = $_SERVER['HTTP_CLIENT_IP'];
 elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 else $ip = $_SERVER['REMOTE_ADDR'];
-$u=$_SERVER['HTTP_USER_AGENT'];
+$u=utf8_encode($_SERVER['HTTP_USER_AGENT']);
 
 
 //~ filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING)
