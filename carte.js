@@ -362,7 +362,7 @@ function MakeDepMore(upset){
 					all_dep_name_xml_element[ConvertItoJ(i)].setAttribute("fill",c);
 				}
 				else if(selected_departement_admin[j][0]==i && cBande!=""){
-					console.log("b");
+					console.log("b",indiceSelectedDep.indexOf(i),indiceSelectedDep);
 					if(indiceSelectedDep.indexOf(i)!=-1){
 						console.log("c");
 						all_dep_xml_element[i].setAttribute("fill",colorfill);
