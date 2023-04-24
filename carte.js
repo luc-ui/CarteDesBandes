@@ -283,9 +283,8 @@ function AjoutBande(){
 async function bandeAjax(t){
 	t = (t[1]!=-1)? t :[t[0],MakeColor()];
 	if(t[0]!=-1){
-		AddBandes(t);
-		let bs = await getBandes();
-		Bandes.push(bs[bs.length-1]);
+		let bs = await AddBandes(t);
+		Bandes=bs;
 	}
 	ChoiceAdminBande();
 }
@@ -296,13 +295,7 @@ function MakeColor(){
 async function SpprBande(id){
 	let a=[];
 	id = Bandes.splice(Number(id.split("_")[1]),1)[0][2];
-	for(let i=0;i<selected_departement_admin.length;++i){
-		if(selected_departement_admin[i][1]==id){
-			await deleteDep(selected_departement_admin[i][0]);
-		}		
-	}
-	window.selected_departement_admin= await getDep();
-	deleteBandes(id);
+	window.selected_departement_admin= await deleteBandes(id);
 	ChoiceAdminBande();
 }
 function DepMapChange(){

@@ -4,6 +4,7 @@ abstract class DepartementsManager{
         abstract protected function add(Departements $Departements);
         abstract protected function update(Departements $Departements);
         abstract public function delete($id);
+        abstract public function delete_bande($id);
         abstract public function getList($debut=-1,$limite=-1);
         abstract public function getUnique($id);
         public function save(Departements $Departements){

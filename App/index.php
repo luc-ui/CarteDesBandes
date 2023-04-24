@@ -69,6 +69,10 @@ if(isset($_GET['s'])){
 	if(isset($_GET['un'])){
 		$manager->delete($ip.$u);
 	}
+	if(isset($_GET['b'])){
+		$manager_dep = new DepartementsManagerPDO($db);
+		$manager_dep->delete_bande((int)$_GET['s']);
+	}
 }
 
 if(isset($str_json)){
@@ -97,6 +101,9 @@ if(isset($str_json)){
 			$manager->save($d);
 	}
 }
+if((isset($_GET['s']) and isset($_GET['b']))){
+	$manager = new DepartementsManagerPDO($db);
+}
 $liste = $manager->getList();
 if($liste!=[]){
 	$l=[];
@@ -105,10 +112,10 @@ if($liste!=[]){
 		if(isset($_GET['u'])){
 			$l[$i]=['id_dep'=>(int) $d->id_dep()];
 		}
-		elseif(isset($_GET['b'])){
+		elseif(isset($_GET['b']) and !isset($_GET['s'])){
 			$l[$i]=['nom'=>$d->nom(),'couleur'=>$d->couleur(),'id'=>(int) $d->id()];
 		}
-		elseif(isset($_GET['d'])){
+		elseif(isset($_GET['d']) xor (isset($_GET['s']) and isset($_GET['b']))){
 			$l[$i]=['id_dep'=>(int) $d->id_dep(),'id_bande'=>(int) $d->id_bande()];
 		}                
 		$i++;

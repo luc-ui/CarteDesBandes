@@ -9,8 +9,8 @@ class SecureManagerPDO extends SecureManager{
 
         protected function add(Secure $Secure){
                 $requete = $this->db->prepare('INSERT INTO Secure(ipu, hash) VALUES(:ipu, :hash)');
-                $requete->bindValue(':ipu',$Secure->ipu());
-                $requete->bindValue(':hash',$Secure->hash());
+                $requete->bindValue(':ipu',$Secure->ipu(), \PDO::PARAM_STR);
+                $requete->bindValue(':hash',$Secure->hash(), \PDO::PARAM_STR);
                 $requete->execute();
         }
 		public function getUnique($ip)

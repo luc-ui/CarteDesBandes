@@ -32,13 +32,15 @@ async function getData(type){
 }
 async function modifyData(type,id,jsonData){
 	let response = await Ajax("POST","./App/?"+type+"=1&m="+id,"application/json;charset=UTF-8",jsonData);
-	return JSON.parse(response);
+	return ((response)?JSON.parse(response):"");
 }
 async function addData(type,jsonData){
-	await Ajax("POST","./App/?"+type+"=1","application/json;charset=UTF-8",jsonData);
+	let response = await Ajax("POST","./App/?"+type+"=1","application/json;charset=UTF-8",jsonData);
+	return ((response)?JSON.parse(response):"");
 }
 async function deleteData(type,id){
-	await Ajax("POST","./App/?"+type+"=1&s="+id,"application/json;charset=UTF-8");
+	let response = await Ajax("POST","./App/?"+type+"=1&s="+id,"application/json;charset=UTF-8");
+	return ((response)?JSON.parse(response):"");
 }
 async function AddUser(data){
 	let jsonData = JSON.stringify({"id_dep":data});
@@ -66,7 +68,12 @@ async function getUsers(){
 }
 async function AddBandes(data){
 	let jsonData = JSON.stringify({"nom":data[0],"couleur":data[1]});
-	await addData("b",jsonData);
+	let r = await addData("b",jsonData);
+	let array =[];
+	for(let i=0;i<r.length;++i){
+		array.push(objectToArray(r[i]));
+	}
+	return array.reverse();
 }
 async function modifyBandes(data,id){
 	let jsonData = JSON.stringify({"nom":data[0],"couleur":data[1]});
@@ -74,7 +81,12 @@ async function modifyBandes(data,id){
 	return objectToArray(bande).reverse();
 }
 async function deleteBandes(id){
-	deleteData("b",id);
+	let r = await deleteData("b",id);
+	let array =[];
+	for(let i=0;i<r.length;++i){
+		array.push(objectToArray(r[i]));
+	}
+	return array.reverse();
 }
 async function getBandes(){
 	let bandes = await getData("b");
@@ -90,7 +102,7 @@ async function modifyDep(data,id){
 	return objectToArray(dep).reverse();
 }
 async function deleteDep(id){
-	deleteData("d",id);
+	await deleteData("d",id);
 }
 async function addDep(data){
 	let jsonData = JSON.stringify({"id_bande":data[0],"id_dep":data[1]});
