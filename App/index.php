@@ -7,6 +7,29 @@ ini_set('allow_url_fopen',true);
 
 error_reporting(E_ALL & ~E_NOTICE);
 
+
+//~ session_start();
+//~ $token = bin2hex(random_bytes(32));
+//~ $_SESSION["token"] = $token;
+
+//~ if (!isset($_POST["token"]) || !hash_equals($_SESSION["token"], $_POST["token"])) {
+		//~ header('Location: https://boquette.fr');
+		//~ exit;
+//~ }
+
+$allowed = array('10.1.0.10:90','bandes.boquette.fr','localhost');
+foreach($allowed as $a){
+	header('Access-Control-Allow-Origin: '.$a);
+}
+if(!in_array($_SERVER['HTTP_HOST'], $allowed)){
+	header('HTTP/1.0 404 Not Found');
+	exit();
+}
+
+
+header('Content-Type: application/json');
+$str_json = json_decode(file_get_contents('php://input'),True);
+
 require 'autoload.php';
 $db = DBFactory::getMysqlConnexionWithPDO();
 
@@ -14,6 +37,18 @@ if (!empty($_SERVER['HTTP_CLIENT_IP']))$ip = $_SERVER['HTTP_CLIENT_IP'];
 elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 else $ip = $_SERVER['REMOTE_ADDR'];
 $u=utf8_encode($_SERVER['HTTP_USER_AGENT']);
+
+//~ $manager = new SecureManagerPDO($db);
+//~ if($manager->getUnique($ip.$u)==null){
+	//~ $d = new User([
+		//~ 'ipu' => $ip.$u,
+		//~ 'hash' => crypt($ip.$u);
+	//~ ]);
+	//~ if($d->isValid()){
+		//~ $manager->save($d);
+	//~ }
+	//~ setcookie(sha1($ip.$u), $hash, time()+3600,"",'bandes.boquette.fr');
+//~ }
 
 
 if(isset($_GET['u']) xor isset($_GET['un'])){
@@ -35,26 +70,6 @@ if(isset($_GET['s'])){
 		$manager->delete($ip.$u);
 	}
 }
-
-//~ session_start();
-//~ $token = bin2hex(random_bytes(32));
-//~ $_SESSION["token"] = $token;
-
-//~ if (!isset($_POST["token"]) || !hash_equals($_SESSION["token"], $_POST["token"])) {
-		//~ header('Location: https://boquette.fr');
-		//~ exit;
-//~ }
-
-$allowed = array('10.1.0.10:90','bandes.boquette.fr','localhost');
-foreach($allowed as $a){
-	header('Access-Control-Allow-Origin: '.$a);
-}
-if(!in_array($_SERVER['HTTP_HOST'], $allowed)){
-	header('HTTP/1.0 404 Not Found');
-	exit();
-}
-header('Content-Type: application/json');
-$str_json = json_decode(file_get_contents('php://input'),True);
 
 if(isset($str_json)){
 	if(isset($_GET['un'])){

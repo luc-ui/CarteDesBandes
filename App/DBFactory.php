@@ -6,3 +6,4 @@ class DBFactory{
 		return $db;
 	}
 }
+
